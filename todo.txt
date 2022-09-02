@@ -1,0 +1,15 @@
+1. make payment before you submit the delivery request
+
+
+
+
+
+db-name: id19359342_deliverydb
+db-userName: id19359342_root
+db-password: Justice12$Justice12$
+
+
+//product
+// update each product image seperately (not when updating particular product details)
+
+http://127.0.0.1:8000/api/productaddpic/2/1  ===== this is the only product url thats not working
