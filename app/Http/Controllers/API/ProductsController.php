@@ -32,6 +32,21 @@ class ProductsController extends Controller{
                     }
 
                     $products[$pi]->productImageUrls =  $allSingleProdtImages;
+
+                // get product category details
+                $productCategoryController =  new ProductCategoryController();
+                $result =  $productCategoryController->getPCategoryDetails($products[$pi]->productCategoryID);
+                // the "original" is a value added by laravel by default
+                if(isset($result->original)){
+                    // $pCategoryDetails = $pCategory["category"];
+                    $products[$pi]->productCategory= $result->original["category"];
+                }
+                else{
+                    return response()->json([
+                        'success'=>false,
+                        'error'=> "couldn't fetch product category details"
+                    ], 401);
+                }
                 }
 
                 return response()->json([
@@ -54,8 +69,6 @@ class ProductsController extends Controller{
 
                 $allProductImages = ProductImagesController::returnAllImages();
 
-
-
                 for($pi=0; $pi<$products->count(); $pi++){
                     $allSingleProdtImages=[];
 
@@ -66,6 +79,21 @@ class ProductsController extends Controller{
                     }
 
                     $products[$pi]->productImageUrls =  $allSingleProdtImages;
+
+                // get product category details
+                $productCategoryController =  new ProductCategoryController();
+                $result =  $productCategoryController->getPCategoryDetails($products[$pi]->productCategoryID);
+                // the "original" is a value added by laravel by default
+                if(isset($result->original)){
+                    // $pCategoryDetails = $pCategory["category"];
+                    $products[$pi]->productCategory= $result->original["category"];
+                }
+                else{
+                    return response()->json([
+                        'success'=>false,
+                        'error'=> "couldn't fetch product category details"
+                    ], 401);
+                }
                 }
 
                 return response()->json([
@@ -95,13 +123,27 @@ class ProductsController extends Controller{
             }
             // If product id found...
              else if($products){
-                $allImages = ProductImagesController::returnSingleProductImages($request, $productId);
+                // get product category details
+                $productCategoryController =  new ProductCategoryController();
+                $result =  $productCategoryController->getPCategoryDetails($products->productCategoryID);
+                // the "original" is a value added by laravel by default
+                if(isset($result->original)){
+                    // $pCategoryDetails = $pCategory["category"];
+                    $products->productCategory= $result->original["category"];
+                }
+                else{
+                    return response()->json([
+                        'success'=>false,
+                        'error'=> "couldn't fetch product category details"
+                    ], 401);
+                }
 
+                $allImages = ProductImagesController::returnSingleProductImages($request, $productId);
                 $products->productImageUrls= $allImages;
 
                 return response()->json([
                 "success" => true,
-                "product"=>$products
+                "product"=>$products,
                 ],200);
             }
         }

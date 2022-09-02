@@ -218,7 +218,7 @@ class ProductCategoryController extends Controller{
              else if($productCategory){
                 return response()->json([
                 "success" => true,
-                "rider" => $productCategory->toArray()
+                "category" => $productCategory->toArray()
                 ],200);
             }
         }
