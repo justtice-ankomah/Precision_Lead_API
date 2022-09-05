@@ -31,10 +31,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('users', [UserController::class, 'getAllUser']);
     // update a user
     Route::put('users/{id}', [UserController::class, 'updateUser']);
-  // update profile picture
-  Route::post('users/picture/{id}', [UserController::class, 'updateProfilePic']);
+    // update profile picture
+    Route::post('users/picture/{id}', [UserController::class, 'updateProfilePic']);
     // delete user
     Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+    //reset password
+    Route::put('users/password/{id}', [UserController::class, 'resetPassword']);
     //===============Delivery======
     Route::post('delivery', [deliveryController::class, 'addDelivery']);
     Route::get('delivery/{userid}/{userphone}', [deliveryController::class, 'getUserDeliveries']);

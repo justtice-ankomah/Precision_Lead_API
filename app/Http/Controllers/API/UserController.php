@@ -80,6 +80,8 @@ class UserController extends Controller
             $token = auth('web')->user()->createToken('Laravel-9-Passport-Auth')->accessToken;
             // get the user details
            $user = User::where("username",$request->username)->get();
+           // convert the groupid to int
+           $user[0]->groupid = (int)$user[0]->groupid;
             return response()->json([
                 'success'=>true,
                 'token' => $token,
@@ -149,7 +151,7 @@ class UserController extends Controller
 
             return response()->json([
              "success" => true,
-             "message" =>"successful"
+             "message" =>"successfully updated"
              ],200);
         } catch(Exception $e){
         return response()->json([
@@ -242,7 +244,46 @@ class UserController extends Controller
         }
     }
 
+    // Reset User password
+    public function resetPassword(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6',
+        ]);
+        //if validation fails
+        if ($validator->fails()) {
+             return response()->json([
+                "success"=>false,
+                "message"=>"Validation error"
+            ], 400);
+        }
+            //if validation passed
+        else{
+            try{
+                $users = User::find($id);
+                if($users==null){
+                    return response()->json([
+                        "success" => true,
+                        "message" =>"User not found"
+                        ],200);
+                }
+                else{
+                    $users->password=bcrypt($request->password);
+                    $users->save();
 
+                    return response()->json([
+                    "success" => true,
+                    "message" =>"Password successfully reset"
+                    ],200);
+                }
 
+            } catch(Exception $e){
+            return response()->json([
+                        'success'=>false,
+                        'error'=> $e->getMessage()
+                    ], 401);
+
+            }
+        }
+    }
 
 }
