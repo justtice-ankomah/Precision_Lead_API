@@ -149,9 +149,12 @@ class UserController extends Controller
             $users->locationDesc=$request->locationDesc;
             $users->save();
 
+            $reFindUser = User::find($id);
+
             return response()->json([
              "success" => true,
-             "message" =>"successfully updated"
+             "message" =>"successfully updated",
+             "user"=> $reFindUser
              ],200);
         } catch(Exception $e){
         return response()->json([
