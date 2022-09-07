@@ -142,6 +142,7 @@ class UserController extends Controller
             $users->fullname=$request->fullname;
             $users->username=$request->username;
             $users->phonenumber=$request->phonenumber;
+            $users->momonumber=$request->momonumber;
             $users->address=$request->address;
             $users->locationLat=$request->locationLat;
             $users->locationLnt=$request->locationLnt;
