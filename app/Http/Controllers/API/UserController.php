@@ -151,6 +151,7 @@ class UserController extends Controller
             $users->save();
 
             $reFindUser = User::find($id);
+            $reFindUser->groupid = (int)$reFindUser->groupid;
 
             return response()->json([
              "success" => true,
