@@ -8,9 +8,18 @@ use App\Http\Controllers\API\ProductCategoryController;
 use App\Http\Controllers\API\ProductsController;
 use App\Http\Controllers\API\ProductImagesController;
 
-
+//==USER
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
+    //==POPULAR PRODUCT
+Route::get('popular/product', [ProductsController::class, 'getAllPopularProduct']);
+//==PRODUCT CATEGORY
+Route::get('pcategory', [ProductCategoryController::class, 'getAllproductCategory']);
+Route::get('pcategory/{id}', [ProductCategoryController::class, 'getPCategoryDetails']);
+//==PRODUCT
+Route::get('product', [ProductsController::class, 'getAllproducts']);
+Route::get('product/{id}', [ProductsController::class, 'getProductDetails']);
+Route::get('productcategory/{id}', [ProductsController::class, 'getAllproductsInCategory']);
 
 Route::get('/', function () {
     return response()->json([
@@ -67,20 +76,14 @@ Route::middleware('auth:api')->group(function () {
     // delete userGroup
     Route::delete('usersgroups/{adminId}/{id}', [UserGroupsController::class, 'deleteUserGroup']);
     //==PRODUCT CATEGORY
-    Route::get('pcategory', [ProductCategoryController::class, 'getAllproductCategory']);
-    Route::get('pcategory/{id}', [ProductCategoryController::class, 'getPCategoryDetails']);
     Route::post('pcategory/{adminId}', [ProductCategoryController::class, 'addProductCategory']);
     Route::put('pcategory/{adminId}/{id}', [ProductCategoryController::class, 'updatePCategoryDetails']);
     Route::delete('pcategory/{adminId}/{id}', [ProductCategoryController::class, 'deleteProductCategory']);
     //==PRODUCT
-    Route::get('product', [ProductsController::class, 'getAllproducts']);
-    Route::get('product/{id}', [ProductsController::class, 'getProductDetails']);
-    Route::get('productcategory/{id}', [ProductsController::class, 'getAllproductsInCategory']);
     Route::put('product/{adminId}/{id}', [ProductsController::class, 'updateProductDetails']);
     Route::delete('product/{adminId}/{id}', [ProductsController::class, 'deleteProduct']);
     Route::post('product/{adminId}', [ProductsController::class, 'addProduct']);
     Route::post('productimages/{adminId}/{id}', [ProductImagesController::class, 'addMoreImagesToProduct']);
-    Route::get('popular/product', [ProductsController::class, 'getAllPopularProduct']);
 
 });
 
