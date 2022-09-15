@@ -15,6 +15,10 @@ class ProductCategoryController extends Controller{
            public function getAllproductCategory(Request $request){
             try{
                 $prdctCategory = ProductCategory::all();
+                for($i=0; $i<$prdctCategory->count(); $i++){
+                    // convert the following to int
+                    $prdctCategory[$i]->addedByAdminId=(int) $prdctCategory[$i]->addedByAdminId;
+                }
                 return response()->json([
                     "success" => true,
                     "categories" =>$prdctCategory
@@ -59,6 +63,7 @@ class ProductCategoryController extends Controller{
                             'categoryName' => $request->categoryName,
                             'addedByAdminId' => $adminId,
                         ]);
+                        $newProductCategory->addedByAdminId=(int) $newProductCategory->addedByAdminId;
                         return response()->json([
                             'success'=>true,
                             'message'=> 'New product category successfully added',
@@ -216,6 +221,7 @@ class ProductCategoryController extends Controller{
             }
             // If productCategory id found...
              else if($productCategory){
+                $productCategory->addedByAdminId=(int) $productCategory->addedByAdminId;
                 return response()->json([
                 "success" => true,
                 "category" => $productCategory->toArray()
