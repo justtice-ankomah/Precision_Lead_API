@@ -427,7 +427,7 @@ class ProductsController extends Controller{
                             // convert the following to int
                             $products[$ii]->productCategoryID=(int) $products[$ii]->productCategoryID;
                             $products[$ii]->quantityAvailable=(int)  $products[$ii]->quantityAvailable;
-                            $products[$ii]->quantitySold=(int) $products[$ii]->$updatedProducts->quantitySold;
+                            $products[$ii]->quantitySold=(int) $products[$ii]->quantitySold;
                             $products[$ii]->addedByAdminId=(int) $products[$ii]->addedByAdminId;
 
                            for($j=$ii; $j<$products->count(); $j++){
