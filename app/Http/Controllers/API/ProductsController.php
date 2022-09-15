@@ -83,6 +83,11 @@ class ProductsController extends Controller{
                         }
                     }
 
+                    // convert the following to integer
+                    $products[$pi]->productCategoryID=(int) $products[$pi]->productCategoryID;
+                    $products[$pi]->quantityAvailable=(int) $products[$pi]->quantityAvailable;
+                    $products[$pi]->quantitySold=(int) $products[$pi]->quantitySold;
+                    $products[$pi]->addedByAdminId=(int) $products[$pi]->addedByAdminId;
                     $products[$pi]->productImageUrls =  $allSingleProdtImages;
 
                 // get product category details
@@ -91,6 +96,7 @@ class ProductsController extends Controller{
                 // the "original" is a value added by laravel by default
                 if(isset($result->original)){
                     // $pCategoryDetails = $pCategory["category"];
+                    $result->original["category"]['addedByAdminId'] =(int) $result->original["category"]['addedByAdminId'];
                     $products[$pi]->productCategory= $result->original["category"];
                 }
                 else{
@@ -134,6 +140,7 @@ class ProductsController extends Controller{
                 // the "original" is a value added by laravel by default
                 if(isset($result->original)){
                     // $pCategoryDetails = $pCategory["category"];
+                    $result->original["category"]['addedByAdminId'] =(int) $result->original["category"]['addedByAdminId'];
                     $products->productCategory= $result->original["category"];
                 }
                 else{
@@ -196,9 +203,19 @@ class ProductsController extends Controller{
                     $products->quantityAvailable=$request->quantityAvailable;
                      $products->save();
 
+                     $updatedProducts = Products::find($productId);
+                      // convert the following to integer
+                      $updatedProducts->productCategoryID=(int)  $updatedProducts->productCategoryID;
+                      $updatedProducts->quantityAvailable=(int)  $updatedProducts->quantityAvailable;
+                      $updatedProducts->quantitySold=(int) $updatedProducts->quantitySold;
+                      $updatedProducts->addedByAdminId=(int)  $updatedProducts->addedByAdminId;
+                      $allImages = ProductImagesController::returnSingleProductImages($request, $productId);
+                      $updatedProducts->productImageUrls= $allImages;
+
                      return response()->json([
                          "success" => true,
-                         "message" =>"Product with id $productId successfully Updated"
+                         "message" =>"Product with id $productId successfully Updated",
+                         "product"=>$updatedProducts
                          ],200);
                  }
                  else{
