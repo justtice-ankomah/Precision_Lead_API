@@ -18,10 +18,7 @@ class ProductsController extends Controller{
            public function getAllproducts(Request $request){
             try{
                 $products = Products::all();
-
                 $allProductImages = ProductImagesController::returnAllImages();
-
-
 
                 for($pi=0; $pi<$products->count(); $pi++){
                     $allSingleProdtImages=[];
@@ -34,12 +31,19 @@ class ProductsController extends Controller{
 
                     $products[$pi]->productImageUrls =  $allSingleProdtImages;
 
+                    // convert the following to integer
+                    $products[$pi]->productCategoryID=(int) $products[$pi]->productCategoryID;
+                    $products[$pi]->quantityAvailable=(int) $products[$pi]->quantityAvailable;
+                    $products[$pi]->quantitySold=(int) $products[$pi]->quantitySold;
+                    $products[$pi]->addedByAdminId=(int) $products[$pi]->addedByAdminId;
+
                 // get product category details
                 $productCategoryController =  new ProductCategoryController();
                 $result =  $productCategoryController->getPCategoryDetails($products[$pi]->productCategoryID);
                 // the "original" is a value added by laravel by default
                 if(isset($result->original)){
                     // $pCategoryDetails = $pCategory["category"];
+                    $result->original["category"]->addedByAdminId =(int) $result->original["category"]->addedByAdminId;
                     $products[$pi]->productCategory= $result->original["category"];
                 }
                 else{
@@ -389,6 +393,7 @@ class ProductsController extends Controller{
                     //Get all the products in this category
                    $products = Products::where([
                         ["productCategoryID", '=', $allprodctCategories[$i]->id],
+                        // select only the products that is available for sale
                         ["quantityAvailable", '>', 'quantitySold'],
                         ])
                         ->limit(7)
