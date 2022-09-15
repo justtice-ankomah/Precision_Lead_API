@@ -422,7 +422,7 @@ class ProductsController extends Controller{
                         $temp;
                         for($ii=0; $ii<$products->count(); $ii++){
                             // get all the product images
-                            $allImages = ProductImagesController::returnSingleProductImages($request, $product->id);
+                            $allImages = ProductImagesController::returnSingleProductImages($request, $products[$ii]->id);
                             $products[$ii]->productImageUrls= $allImages;
                             // convert the following to int
                             $products[$ii]->productCategoryID=(int) $products[$ii]->productCategoryID;
