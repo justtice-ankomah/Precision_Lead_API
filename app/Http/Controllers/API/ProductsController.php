@@ -421,6 +421,15 @@ class ProductsController extends Controller{
                         // PICK  the first 7 $products items that is most sold based on quantitySold. Before you assign it to below $categoryProductList
                         $temp;
                         for($ii=0; $ii<$products->count(); $ii++){
+                            // get all the product images
+                            $allImages = ProductImagesController::returnSingleProductImages($request, $product->id);
+                            $products[$ii]->productImageUrls= $allImages;
+                            // convert the following to int
+                            $products[$ii]->productCategoryID=(int) $products[$ii]->productCategoryID;
+                            $products[$ii]->quantityAvailable=(int)  $products[$ii]->quantityAvailable;
+                            $products[$ii]->quantitySold=(int) $products[$ii]->$updatedProducts->quantitySold;
+                            $products[$ii]->addedByAdminId=(int) $products[$ii]->addedByAdminId;
+
                            for($j=$ii; $j<$products->count(); $j++){
                               if($products[$ii]->quantitySold < $products[$j]->quantitySold){
                                 $temp =$products[$ii];
