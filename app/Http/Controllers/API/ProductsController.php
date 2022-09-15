@@ -353,10 +353,20 @@ class ProductsController extends Controller{
                             'imageUrls'=>$products->productImageUrls
                         ]);
 
+                        $addedProducts = Products::find($products->id);
+                        // convert the following to integer
+                        $addedProducts->productCategoryID=(int) $addedProducts->productCategoryID;
+                        $addedProducts->quantityAvailable=(int) $addedProducts->quantityAvailable;
+                        $addedProducts->quantitySold=(int) $addedProducts->quantitySold;
+                        $addedProducts->addedByAdminId=(int) $addedProducts->addedByAdminId;
+
+                        $allImages = ProductImagesController::returnSingleProductImages($request, $addedProducts->id);
+                        $addedProducts->productImageUrls= $allImages;
+
                         return response()->json([
                             'success'=>true,
                             'message'=> 'New product successfully added',
-                            "product"=>$products
+                            "product"=> $addedProducts
                         ], 200);
                     }
                     catch(Exception $e){
