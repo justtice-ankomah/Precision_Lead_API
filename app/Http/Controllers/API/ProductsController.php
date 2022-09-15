@@ -43,7 +43,7 @@ class ProductsController extends Controller{
                 // the "original" is a value added by laravel by default
                 if(isset($result->original)){
                     // $pCategoryDetails = $pCategory["category"];
-                    $result->original["category"]->addedByAdminId =(int) $result->original["category"]->addedByAdminId;
+                    $result->original["category"]['addedByAdminId'] =(int) $result->original["category"]['addedByAdminId'];
                     $products[$pi]->productCategory= $result->original["category"];
                 }
                 else{
