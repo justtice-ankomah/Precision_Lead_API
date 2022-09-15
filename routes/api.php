@@ -80,6 +80,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('product/{adminId}/{id}', [ProductsController::class, 'deleteProduct']);
     Route::post('product/{adminId}', [ProductsController::class, 'addProduct']);
     Route::post('productimages/{adminId}/{id}', [ProductImagesController::class, 'addMoreImagesToProduct']);
+    Route::get('popular/product', [ProductsController::class, 'getAllPopularProduct']);
 
 });
 

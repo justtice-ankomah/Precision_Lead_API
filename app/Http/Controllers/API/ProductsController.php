@@ -7,6 +7,7 @@ use App\Models\Products;
 use App\Models\User;
 use Validator;
 use App\Models\ProductImages;
+use App\Models\ProductCategory;
 
 
 
@@ -140,6 +141,12 @@ class ProductsController extends Controller{
 
                 $allImages = ProductImagesController::returnSingleProductImages($request, $productId);
                 $products->productImageUrls= $allImages;
+
+                // convert the following to int
+                $products->productCategoryID = (int)$products->productCategoryID;
+                $products->quantityAvailable = (int)$products->quantityAvailable;
+                $products->addedByAdminId = (int)$products->addedByAdminId;
+                $products->quantitySold = (int)$products->quantitySold;
 
                 return response()->json([
                 "success" => true,
@@ -354,4 +361,75 @@ class ProductsController extends Controller{
              }
         }
 
+        // Get all popular product
+        // simply select the list of most quantitySold product under each category
+        public function getAllPopularProduct(Request $request){
+
+
+            $singleCateorisProducts = array();
+             // add below like array to the above array.
+            // $bb = ["categoryName"=>"Electronics","Products"=>[]];
+           // decode it and push
+          // array_push($singleCateorisProducts, json_decode($bb));
+
+            try{
+                // it returns a list or empty array
+                $allprodctCategories = ProductCategory::all();
+                // if there is no productCategory
+                if(count($allprodctCategories)<1){
+                return response()->json([
+                    "success" => true,
+                    "message" =>"No product category available, please add some"
+                    ],200);
+                }
+                // if there is productCategoris
+                else{
+                for($i=0; $i<$allprodctCategories->count(); $i++){
+                    $categoryProductList;
+                    //Get all the products in this category
+                   $products = Products::where([
+                        ["productCategoryID", '=', $allprodctCategories[$i]->id],
+                        ["quantityAvailable", '>', 'quantitySold'],
+                        ])
+                        ->limit(7)
+                        ->get();
+                    // if there is products inside this categories
+                    // $products represent all the list of products in a particular category
+                    if(count($products)>0){
+                        // PICK  the first 7 $products items that is most sold based on quantitySold. Before you assign it to below $categoryProductList
+                        $temp;
+                        for($ii=0; $ii<$products->count(); $ii++){
+                           for($j=$ii; $j<$products->count(); $j++){
+                              if($products[$ii]->quantitySold < $products[$j]->quantitySold){
+                                $temp =$products[$ii];
+                                $products[$ii]=$products[$j];
+                                $products[$j]= $temp;
+                              }
+                            }
+                        }
+                        $categoryProductList = ["categoryName"=>$allprodctCategories[$i]->categoryName,"Products"=> $products];
+
+                    }
+                    else{
+                        $categoryProductList = ["categoryName"=>$allprodctCategories[$i]->categoryName,"Products"=> $products];
+                    }
+
+                    array_push($singleCateorisProducts, $categoryProductList);
+                }
+
+                return response()->json([
+                    "success" => true,
+                    "popularProducts" =>$singleCateorisProducts
+                    ],200);
+                }
+            }
+            catch(Exception $e){
+                return response()->json([
+                            'success'=>false,
+                            'error'=> $e->getMessage()
+                        ], 401);
+                }
+        }
+
 }
+

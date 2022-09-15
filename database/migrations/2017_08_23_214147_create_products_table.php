@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('productCategoryID')->references('id')->on('productcategories')->onUpdate('cascade')->onDelete('cascade');
             $table->longText("productImageUrls")->nullable(false);
             $table->integer("quantityAvailable")->nullable(false);
+            $table->integer("quantitySold")->nullable(true)->default(0);
             $table->unsignedBigInteger('addedByAdminId')->nullable(false);
             $table->foreign('addedByAdminId')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

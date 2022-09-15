@@ -62,7 +62,7 @@ class ProductCategoryController extends Controller{
                         return response()->json([
                             'success'=>true,
                             'message'=> 'New product category successfully added',
-                            "user"=>$newProductCategory
+                            "category"=>$newProductCategory
                         ], 200);
                     }
                     catch(Exception $e){
