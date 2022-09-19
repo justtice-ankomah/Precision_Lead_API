@@ -77,7 +77,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('usersgroups/{adminId}/{id}', [UserGroupsController::class, 'deleteUserGroup']);
     //==PRODUCT CATEGORY
     Route::post('pcategory/{adminId}', [ProductCategoryController::class, 'addProductCategory']);
-    Route::put('pcategory/{adminId}/{id}', [ProductCategoryController::class, 'updatePCategoryDetails']);
+    Route::post('pcategory/{adminId}/{id}', [ProductCategoryController::class, 'updatePCategoryDetails']);
     Route::delete('pcategory/{adminId}/{id}', [ProductCategoryController::class, 'deleteProductCategory']);
     //==PRODUCT
     Route::put('product/{adminId}/{id}', [ProductsController::class, 'updateProductDetails']);

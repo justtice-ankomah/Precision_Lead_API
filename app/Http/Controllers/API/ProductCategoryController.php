@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
-use App\Models\User;
 use Validator;
 
 
@@ -47,7 +46,8 @@ class ProductCategoryController extends Controller{
                 // check if user is admin
                  if($user["groupid"]==1){
                     $validator = Validator::make($request->all(), [
-                        'categoryName' => 'required|min:2'
+                        'categoryName' => 'required|min:2',
+                        'icon' => 'required|image',
                     ]);
                     //if validation fails
                     if ($validator->fails()) {
@@ -59,8 +59,13 @@ class ProductCategoryController extends Controller{
                       //if validation passed
                     else{
                         try{
+                            $iconName = time().".".$request->icon->extension();
+                            $request->icon->move(public_path('images'),$iconName);
+                            $path = "public/images/$iconName";
+
                         $newProductCategory = ProductCategory::create([
                             'categoryName' => $request->categoryName,
+                            'icon' => stripcslashes($path),
                             'addedByAdminId' => $adminId,
                         ]);
                         $newProductCategory->addedByAdminId=(int) $newProductCategory->addedByAdminId;
@@ -152,6 +157,10 @@ class ProductCategoryController extends Controller{
 
         // upate category details
         public function updatePCategoryDetails(Request $request, $adminId, $categoryId){
+            if (!$request->has('icon') || !$request->has('categoryName')) {
+                return response()->json(['message' => 'Missing one or more required fields'], 422);
+            }
+
             $user = auth()->user()->find($adminId);
             // If admin id not found...
             if(!$user){
@@ -173,13 +182,19 @@ class ProductCategoryController extends Controller{
                                  ],200);
                          }
                          else if($productCategory!=null){
+                            $iconName = time().".".$request->icon->extension();
+                            $request->icon->move(public_path('images'),$iconName);
+                            $path = "public/images/$iconName";
+
                             $productCategory->categoryName=$request->categoryName;
                             $productCategory->addedByAdminId=$request->$adminId;
+                            $productCategory->icon= stripcslashes($path);
                              $productCategory->save();
 
                              return response()->json([
                                  "success" => true,
-                                 "message" =>"Product Category with id $categoryId successfully Updated"
+                                 "message" =>"Product Category with id $categoryId successfully Updated",
+                                 "category"=>ProductCategory::find($categoryId)
                                  ],200);
                          }
                          else{

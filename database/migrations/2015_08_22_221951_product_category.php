@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("categoryName")->nullable(false)->unique();
             $table->unsignedBigInteger('addedByAdminId')->nullable(true);
+            $table->string('icon')->unique()->nullable(false);
             $table->foreign('addedByAdminId')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
