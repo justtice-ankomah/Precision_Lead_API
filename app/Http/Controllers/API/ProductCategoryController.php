@@ -8,8 +8,6 @@ use Validator;
 
 
 class ProductCategoryController extends Controller{
-
-
         //   Get All Categeories
            public function getAllproductCategory(Request $request){
             try{

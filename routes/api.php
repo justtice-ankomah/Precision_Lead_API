@@ -7,6 +7,7 @@ use App\Http\Controllers\API\RiderController;
 use App\Http\Controllers\API\ProductCategoryController;
 use App\Http\Controllers\API\ProductsController;
 use App\Http\Controllers\API\ProductImagesController;
+use App\Http\Controllers\API\CouponController;
 
 //==USER
 Route::post('register', [UserController::class, 'register']);
@@ -84,7 +85,13 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('product/{adminId}/{id}', [ProductsController::class, 'deleteProduct']);
     Route::post('product/{adminId}', [ProductsController::class, 'addProduct']);
     Route::post('productimages/{adminId}/{id}', [ProductImagesController::class, 'addMoreImagesToProduct']);
-
+    //==COUPON
+    Route::post('coupon/{adminId}', [CouponController::class, 'createCoupon']);
+    Route::post('coupon/code/verify', [CouponController::class, 'verifyCouponCode']);
+    Route::get('coupon', [CouponController::class, 'getAllCoupon']);
+    Route::get('coupon/{id}', [CouponController::class, 'getCouponDetails']);
+    Route::put('coupon/{adminId}/{id}', [CouponController::class, 'updateCoupon']);
+    Route::delete('coupon/{adminId}/{id}', [CouponController::class, 'deleteCoupon']);
 });
 
 
