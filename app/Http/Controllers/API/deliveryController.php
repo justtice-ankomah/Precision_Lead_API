@@ -15,9 +15,9 @@ class deliveryController extends Controller
     {
         try{
             $deliveriesModel = new Deliveries;
-            $deliveriesModel->itemName=$request->itemName;
-            $deliveriesModel->itemCategory=$request->itemCategory;
-            $deliveriesModel->itemDesc=$request->itemDesc;
+            $deliveriesModel->pickUpItemName=$request->pickUpItemName;
+            $deliveriesModel->pickUpItemCategory=$request->pickUpItemCategory;
+            $deliveriesModel->pickUpItemDesc=$request->pickUpItemDesc;
             $deliveriesModel->senderId=$request->senderId;
             $deliveriesModel->receiverId=$request->receiverId;
             $deliveriesModel->receiverName=$request->receiverName;
@@ -25,7 +25,9 @@ class deliveryController extends Controller
             $deliveriesModel->reciverIdNumber=$request->reciverIdNumber;
             $deliveriesModel->riderId=$request->riderId;
             $deliveriesModel->paymentMethod=$request->paymentMethod;
-            $deliveriesModel->costAmount=$request->costAmount;
+            $deliveriesModel->totalCostAmount=$request->totalCostAmount;
+            $deliveriesModel->paymentType=$request->paymentType;
+            $deliveriesModel->deliveryCostAmount=$request->deliveryCostAmount;
             $deliveriesModel->pickUpLocationLat=$request->pickUpLocationLat;
             $deliveriesModel->pickUpLocationLnt=$request->pickUpLocationLnt;
             $deliveriesModel->pickUpLocationName=$request->pickUpLocationName;
@@ -34,9 +36,9 @@ class deliveryController extends Controller
             $deliveriesModel->destLocationLnt=$request->destLocationLnt;
             $deliveriesModel->destLocationName=$request->destLocationName;
             $deliveriesModel->destLocationDesc=$request->destLocationDesc;
-            $deliveriesModel->productId=$request->productId;
+            $deliveriesModel->productList=$request->productList;
             // check if user did buy a product with this delivery product
-            if($request->productId !=null && is_int($request->productId)){
+            if($request->productList !=null){
                 $deliveriesModel->didUserBuyProduct="YES";
             }
 
@@ -49,8 +51,8 @@ class deliveryController extends Controller
             else{
                 $deliveriesModel->deliveryType="UNKNOWN";
             }
-            // generate item-code for this delivery
-            $deliveriesModel->itemCode="pr".strval(time())."d";
+            // generate deliveryCode for this delivery
+            $deliveriesModel->deliveryCode="pr".strval(time())."d";
             $deliveriesModel->save();
             return response()->json([
                 'success'=>true,
