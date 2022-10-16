@@ -15,9 +15,19 @@ class RiderController extends Controller
         public function getAllRiders(Request $request){
             try{
                 $riders = User::where(["groupid"=>3])->get();
+
+                $allRiders=[];
+
+                for($i=0; $i<count($riders); $i++){
+                    if(count($riders)>0){
+                        $riders[$i]->groupid=(int) $riders[$i]->groupid;
+                        array_push( $allRiders, $riders[$i]);
+                    }
+                }
+
                 return response()->json([
                     "success" => true,
-                    "riders" =>$riders
+                    "riders" =>$allRiders
                     ],200);
 
             }
@@ -42,6 +52,7 @@ class RiderController extends Controller
             }
             // If user id found...
              else if(count($rider) >0){
+                $rider[0]->groupid=(int)  $rider[0]->groupid;
                 return response()->json([
                 "success" => true,
                 "rider" => $rider[0]->toArray()
