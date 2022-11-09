@@ -94,6 +94,7 @@ class deliveryController extends Controller
          }
 
             // append success and deliv_obj to array and cast it to object
+            $allDeliveries->productList = json_encode($allDeliveries->productList);
             $delivObject=(object)array('success'=>true,"deliveries"=>$allDeliveries);
             return response()->json( $delivObject, 200);
     }
@@ -119,6 +120,8 @@ class deliveryController extends Controller
              return response()->json( $delivObject, 200);
            }
            else{
+            $deliveriesModel->productList = json_encode($deliveriesModel->productList);
+
                return response()->json([
                    'success'=>true,
                    'deliveries' => $deliveriesModel,
