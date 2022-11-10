@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Deliveries extends Model
 {
     protected $table ="deliveries";
+    protected $casts = ['productList' => 'array'];
     use HasFactory;
 }

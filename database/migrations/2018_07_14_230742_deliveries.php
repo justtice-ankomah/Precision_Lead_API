@@ -51,7 +51,8 @@ return new class extends Migration
             $table->longText("destLocationDesc");
             // I just added below two
             $table->string("didUserBuyProduct")->nullable(false)->default("NO"); // [YES, NO]
-            $table->longText("productList")->nullable(true)->default(null);;
+            // $table->longText("productList")->nullable(true)->default(null);
+            $table->json("productList")->nullable(true)->default(null);
             $table->timestamps();
         });
     }
