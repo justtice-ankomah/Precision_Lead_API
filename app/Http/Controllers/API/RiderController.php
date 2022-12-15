@@ -339,7 +339,7 @@ class RiderController extends Controller
                         if ($request->reason !="PASSED" || $request->reason !="FAILED") {
                                 return response()->json([
                                 "success"=>false,
-                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED"
+                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . $request->reason
                             ], 400);
                         }
                             //if validation passed
