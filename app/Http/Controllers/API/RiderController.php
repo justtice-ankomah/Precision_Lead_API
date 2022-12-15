@@ -348,11 +348,11 @@ class RiderController extends Controller
                        }
 
                         //if reason for ending message not equals: "PASSED" or "FAILED"
-                        if (trim($request->reason) != "PASSED"){
+                        if ((trim($request->reason) != "PASSED") || (trim($request->reason) != "FAILED")){
                                 return response()->json([
                                 "success"=>false,
-                                "message"=>"Not equals PASSED " . $request->reason
-                                // "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
+                                // "message"=>"Not equals PASSED " . $request->reason
+                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
                             ], 400);
                         }
                             //if validation passed
