@@ -347,16 +347,8 @@ class RiderController extends Controller
                            ], 400);
                        }
                         //if reason for ending message not equals: "PASSED" or "FAILED"
-                       else if ((strtoupper(trim($request->reason)) != "PASSED") || (strtoupper(trim($request->reason)) != "FAILED")){
-                                return response()->json([
-                                "success"=>false,
-                                // "message"=>"Not equals PASSED " . $request->reason
-                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
-                            ], 400);
-                        }
-                            //if validation passed
-                        else {
-                            // check if delivery is already PENDING (meaning it already started)
+                       else if ((strtoupper(trim($request->reason)) == "PASSED") || (strtoupper(trim($request->reason)) == "FAILED")){
+                                 // check if delivery is already PENDING (meaning it already started)
                             // that means you can only end a delivery when it pending/started
                             if($delivery["status"] =="PENDING"){
                                 $delivery->status=$request->reason;
@@ -384,6 +376,14 @@ class RiderController extends Controller
                                     "delivery"=>$delivery
                                     ],200);
                             }
+                        }
+                            //if validation passed
+                        else {
+                            return response()->json([
+                                "success"=>false,
+                                // "message"=>"Not equals PASSED " . $request->reason
+                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
+                            ], 400);
                         }
                     }
                     else{
