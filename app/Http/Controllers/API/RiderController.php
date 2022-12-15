@@ -347,7 +347,7 @@ class RiderController extends Controller
                        }
 
                         //if reason for ending message not equals: "PASSED" or "FAILED"
-                        if ($request->reason != ("PASSED" || "FAILED")) {
+                        if ($request->reason != "PASSED" || "FAILED") {
                                 return response()->json([
                                 "success"=>false,
                                 // $request->reason
@@ -373,13 +373,13 @@ class RiderController extends Controller
                             // if delivery not started
                             else if($delivery["status"] =="ACCEPTED"){
                                 return response()->json([
-                                    "success" => true,
+                                    "success" => flase,
                                     "message" =>"Start the delivery first"
                                     ],200);
                             }
                             else{
                                 return response()->json([
-                                    "success" => true,
+                                    "success" => false,
                                     "message" =>"Not Allowed",
                                     "delivery"=>$delivery
                                     ],200);
