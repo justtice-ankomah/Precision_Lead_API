@@ -342,7 +342,7 @@ class RiderController extends Controller
                          if ($validator->fails()) {
                             return response()->json([
                                "success"=>false,
-                               "message"=>"Validation error"
+                               "message"=>"<reason> body value is required"
                            ], 400);
                        }
 
@@ -350,8 +350,8 @@ class RiderController extends Controller
                         if ($request->reason !="PASSED" || $request->reason !="FAILED") {
                                 return response()->json([
                                 "success"=>false,
-                                $request->reason
-                                // "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . $request->reason
+                                // $request->reason
+                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
                             ], 400);
                         }
                             //if validation passed
