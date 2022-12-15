@@ -335,11 +335,23 @@ class RiderController extends Controller
                     $delivery = Deliveries::find($id);
                     //if delivery found
                     if($delivery){
+                        $validator = Validator::make($request->all(), [
+                            'reason' => 'required'
+                        ]);
+                         //if validation fails
+                         if ($validator->fails()) {
+                            return response()->json([
+                               "success"=>false,
+                               "message"=>"Validation error"
+                           ], 400);
+                       }
+
                         //if reason for ending message not equals: "PASSED" or "FAILED"
                         if ($request->reason !="PASSED" || $request->reason !="FAILED") {
                                 return response()->json([
                                 "success"=>false,
-                                "message"=>$request->reason
+                                $request->reason
+                                // "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . $request->reason
                             ], 400);
                         }
                             //if validation passed
