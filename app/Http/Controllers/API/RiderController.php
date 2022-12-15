@@ -347,7 +347,7 @@ class RiderController extends Controller
                        }
 
                         //if reason for ending message not equals: "PASSED" or "FAILED"
-                        if (($request->reason !="PASSED") || ($request->reason !="FAILED")) {
+                        if ($request->reason != ("PASSED" || "FAILED")) {
                                 return response()->json([
                                 "success"=>false,
                                 // $request->reason
