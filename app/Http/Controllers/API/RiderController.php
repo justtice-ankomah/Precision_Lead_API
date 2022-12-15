@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Deliveries;
 use Validator;
 Use Exception;
+use Carbon\Carbon;
 
 class RiderController extends Controller
 {
@@ -135,7 +136,7 @@ class RiderController extends Controller
         public function getAllPendingDelvrys($id)
         {
             try{
-        $deliveries = Deliveries::where(["riderId"=> $id, "status"=>"PENDING"])->get();
+        $deliveries = Deliveries::where(["riderId"=> $id, "status"=>"PENDING", "isDelvStarted"=>"YES"])->get();
                 return response()->json([
                 "success" => true,
                 "deliveries" => $deliveries
@@ -276,6 +277,116 @@ class RiderController extends Controller
                             ], 401);
 
                     }
+                }
+
+                 // Start delivery
+                 public function startDelivery(Request $request, $id){
+                    try{
+                        $delivery = Deliveries::find($id);
+                        //if delivery found
+                        if($delivery){
+                            // check if delivery already ACCEPTED
+                            if($delivery["status"] =="ACCEPTED"){
+                                $delivery->status="PENDING";
+                                $delivery->isDelvStarted="YES";
+                                // get the current dateTime to set the delivery started date
+                                $currentTime = Carbon::now();
+                                $delivery->delvStartDate=$currentTime->toDateTimeString();
+                                $delivery->save();
+                                return response()->json([
+                                    "success" => true,
+                                    "message" =>"Delivery started"
+                                    ],200);
+                            }
+                            // if delivery not accepted
+                            else if($delivery["status"] =="UNACCEPTED"){
+                                return response()->json([
+                                    "success" => true,
+                                    "message" =>"Accept the delivery first"
+                                    ],200);
+                            }
+                            else{
+                                return response()->json([
+                                    "success" => true,
+                                    "message" =>"Not Allowed",
+                                    "delivery"=>$delivery
+                                    ],200);
+                            }
+                        }
+                        else{
+                            return response()->json([
+                                "success" => true,
+                                "message" =>"Deliveery not found"
+                                ],200);
+                        }
+                    } catch(Exception $e){
+                    return response()->json([
+                                'success'=>false,
+                                'error'=> $e->getMessage()
+                            ], 401);
+
+                    }
+                }
+
+                // End delivery
+                // reason below should either be "PASSED" or "FAILED"
+                public function endDelivery(Request $request, $id){
+                try{
+                    $delivery = Deliveries::find($id);
+                    //if delivery found
+                    if($delivery){
+                        //if reason for ending message not equals: "PASSED" or "FAILED"
+                        if ($request->reason !="PASSED" || $request->reason !="FAILED") {
+                                return response()->json([
+                                "success"=>false,
+                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED"
+                            ], 400);
+                        }
+                            //if validation passed
+                        else {
+                            // check if delivery is already PENDING (meaning it already started)
+                            // that means you can only end a delivery when it pending/started
+                            if($delivery["status"] =="PENDING"){
+                                $delivery->status=$request->reason;
+                                $delivery->isDelvStarted="ENDED";
+                                // get the current dateTime to set the deliveryEndede date
+                                $currentTime = Carbon::now();
+                                $delivery->delvEndDate=$currentTime->toDateTimeString();
+                                $delivery->save();
+                                return response()->json([
+                                    "success" => true,
+                                    "message" =>"Delivery Ended"
+                                    ],200);
+                            }
+                            // if delivery not started
+                            else if($delivery["status"] =="ACCEPTED"){
+                                return response()->json([
+                                    "success" => true,
+                                    "message" =>"Start the delivery first"
+                                    ],200);
+                            }
+                            else{
+                                return response()->json([
+                                    "success" => true,
+                                    "message" =>"Not Allowed",
+                                    "delivery"=>$delivery
+                                    ],200);
+                            }
+                        }
+                    }
+                    else{
+                        return response()->json([
+                            "success" => true,
+                            "message" =>"Deliveery not found"
+                            ],200);
+                    }
+                } catch(Exception $e){
+                return response()->json([
+                            'success'=>false,
+                            'error'=> $e->getMessage()
+                        ], 401);
+
+                }
                 }
 
                 // Register rider

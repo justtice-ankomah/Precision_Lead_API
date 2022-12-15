@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string("reciverIdNumber")->nullable(true);
             $table->unsignedBigInteger("riderId")->nullable(false);
             $table->foreign('riderId')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('isDelvStarted')->default("NO");  // [NO, YES]
+            $table->string('isDelvStarted')->default("NO");  // [NO, YES, ENDED]
             $table->dateTime('delvStartDate')->nullable();
             $table->dateTime('delvEndDate')->nullable();
             $table->string("paymentMethod")->nullable()->default(null); // [MOMO, CARD]

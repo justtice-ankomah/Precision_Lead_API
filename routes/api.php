@@ -63,6 +63,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('rider/deliveries/passed/{id}', [RiderController::class, 'getAllPassedDelvrys']);
     Route::put('rider/deliveries/accept/{id}', [RiderController::class, 'acceptDelivery']);
     Route::put('rider/deliveries/decline/{id}', [RiderController::class, 'declineDelivery']);
+    Route::put('rider/deliveries/start/{id}', [RiderController::class, 'startDelivery']);
+    Route::post('rider/deliveries/end/{id}', [RiderController::class, 'endDelivery']);
     //===============ADMIN=========
     // register rider
     Route::post('register/rider/{adminId}', [RiderController::class, 'registerRider']);
