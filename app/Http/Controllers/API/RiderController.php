@@ -347,7 +347,7 @@ class RiderController extends Controller
                            ], 400);
                        }
                         //if reason for ending message not equals: "PASSED" or "FAILED"
-                       else if ((trim($request->reason) != "PASSED") or (trim($request->reason) != "FAILED")){
+                       else if ((trim($request->reason) !== "PASSED") or (trim($request->reason) !== "FAILED")){
                                 return response()->json([
                                 "success"=>false,
                                 // "message"=>"Not equals PASSED " . $request->reason
