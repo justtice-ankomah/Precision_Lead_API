@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Hamcrest\Text\IsEqualIgnoringWhiteSpace;
 use Illuminate\Http\Request;
 use App\Models\Deliveries;
 use Validator;
@@ -347,11 +348,11 @@ class RiderController extends Controller
                        }
 
                         //if reason for ending message not equals: "PASSED" or "FAILED"
-                        if ($request->reason == "PASSED" || "FAILED") {
+                        if (trim($request->reason) == "PASSED"){
                                 return response()->json([
                                 "success"=>false,
-                                // $request->reason
-                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
+                                "message"=>"equals PASSED " . $request->reason
+                                // "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . "you entered (" . $request->reason .")"
                             ], 400);
                         }
                             //if validation passed
