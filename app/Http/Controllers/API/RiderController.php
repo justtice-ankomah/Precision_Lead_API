@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\Client\Request;
+// use Illuminate\Http\Request;
 use App\Models\Deliveries;
 use Validator;
 Use Exception;
