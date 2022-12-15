@@ -115,6 +115,7 @@ class RiderController extends Controller
 
         }
 
+
            // get all Accepted deliveries for a rider
            public function getAllAcceptedDelvrys($id)
            {
@@ -131,6 +132,25 @@ class RiderController extends Controller
                            'error'=> $e->getMessage()
                        ], 401);
                }
+           }
+
+           // get all declined deliveries
+           public function getAllDelickedDelvrys($id)
+           {
+               try{
+            $deliveries = Deliveries::where(["riderId"=> $id, "status"=>"DECLINED"])->get();
+                   return response()->json([
+                   "success" => true,
+                   "deliveries" => $deliveries
+                   ],200);
+           }
+           catch(Exception $e){
+               return response()->json([
+                           'success'=>false,
+                           'error'=> $e->getMessage()
+                       ], 401);
+               }
+
            }
 
         // get all Pending deliveries for a rider
