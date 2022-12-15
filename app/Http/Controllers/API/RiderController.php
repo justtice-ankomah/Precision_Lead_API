@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Client\Request;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Models\Deliveries;
 use Validator;
 Use Exception;
@@ -340,7 +339,7 @@ class RiderController extends Controller
                         if ($request->reason !="PASSED" || $request->reason !="FAILED") {
                                 return response()->json([
                                 "success"=>false,
-                                "message"=>"<reason> for ending delivery must be: PASSED or FAILED " . $request->reason
+                                "message"=>$request->reason
                             ], 400);
                         }
                             //if validation passed
