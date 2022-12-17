@@ -50,7 +50,8 @@ class RidersLiveLocationController extends Controller
                     //Update Live-location of a rider
                     public function updateLiveLocation(Request $request, $id){
                         try{
-                            $liveLocation = RidersLiveLocation::find($id);
+                            $liveLocation = RidersLiveLocation::where(["deliveryId"=>$id])->get();
+                            $liveLocation = $liveLocation[0];
                             $liveLocation->locationLat=$request->locationLat;
                             $liveLocation->locationLnt=$request->locationLnt;
                             $liveLocation->locationName=$request->locationName;
