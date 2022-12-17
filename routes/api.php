@@ -8,6 +8,7 @@ use App\Http\Controllers\API\ProductCategoryController;
 use App\Http\Controllers\API\ProductsController;
 use App\Http\Controllers\API\ProductImagesController;
 use App\Http\Controllers\API\CouponController;
+use App\Http\Controllers\API\RidersLiveLocationController;
 
 //==USER
 Route::post('register', [UserController::class, 'register']);
@@ -66,6 +67,10 @@ Route::middleware('auth:api')->group(function () {
     Route::put('rider/deliveries/decline/{id}', [RiderController::class, 'declineDelivery']);
     Route::put('rider/deliveries/start/{id}', [RiderController::class, 'startDelivery']);
     Route::post('rider/deliveries/end/{id}', [RiderController::class, 'endDelivery']);
+     //===============RIDERS LIVE LOCATION========
+     Route::post('rider/livelocation', [RidersLiveLocationController::class, 'addNewLiveLocation']);
+    Route::put('rider/livelocation/{id}', [RidersLiveLocationController::class, 'updateLiveLocation']);
+    Route::get('rider/livelocation/{id}', [RidersLiveLocationController::class, 'getRiderLiveLocation']);
     //===============ADMIN=========
     // register rider
     Route::post('register/rider/{adminId}', [RiderController::class, 'registerRider']);
