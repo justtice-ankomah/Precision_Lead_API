@@ -35,7 +35,7 @@ class RidersLiveLocationController extends Controller
                                     return response()->json([
                                         'success'=>true,
                                         'message'=> 'Rider current location posted',
-                                        "user"=>$locationInfo,
+                                        "liveLocation"=>$locationInfo,
                                     ], 200);
                                 }
                                 catch(Exception $e){
@@ -58,11 +58,11 @@ class RidersLiveLocationController extends Controller
                             $liveLocation->locationDesc=$request->locationDesc;
                             $liveLocation->save();
 
-                            $reFindliveLocation = RidersLiveLocation::find($id);
+                            $reFindliveLocation = RidersLiveLocation::where(["deliveryId"=>$id])->get();
                             return response()->json([
                              "success" => true,
                              "message" =>"Rider Live location successfully updated",
-                             "user"=> $reFindliveLocation
+                             "liveLocation"=> $reFindliveLocation[0]
                              ],200);
                         } catch(Exception $e){
                         return response()->json([
