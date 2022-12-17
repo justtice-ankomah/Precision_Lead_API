@@ -13,9 +13,7 @@ class RidersLiveLocationController extends Controller
                                 $validator = Validator::make($request->all(), [
                                     'deliveryId' => 'required',
                                     'locationLat' => 'required',
-                                    'locationLnt'=>'required',
-                                    'locationName'=>'',
-                                    'locationDesc' => ''
+                                    'locationLnt'=>'required'
                                 ]);
                                 //if validation fails
                                 if ($validator->fails()) {

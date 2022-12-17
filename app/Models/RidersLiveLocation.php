@@ -11,3 +11,4 @@ class RidersLiveLocation extends Model
     protected $fillable = ['deliveryId','locationLat','locationLnt', 'locationName','locationDesc'];
     use HasFactory;
 }
+
