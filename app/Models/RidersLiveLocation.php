@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RidersLiveLocation extends Model
 {
     protected $table ="ridersLiveLocation";
-    protected $fillable = ['deliveryId','locationLat','locationLnt', 'locationName','locationDesc'];
+    protected $fillable = ['deliveryId','locationLat','locationLnt', 'locationName','locationDesc','updated_at'];
     use HasFactory;
 }
 
