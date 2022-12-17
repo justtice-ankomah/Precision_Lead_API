@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('ridersLiveLocation', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('deliveryId')->nullable(true);
-            $table->foreign('deliveryId')->references('id')->on('deliveries')->onUpdate('id')->onDelete('cascade');
+            $table->foreign('deliveryId')->references('id')->on('deliveries')->onUpdate('cascade')->onDelete('cascade');
             $table->double("locationLat")->nullable(false);
             $table->double("locationLnt")->nullable(false);
-            $table->string("locationName")->nullable(true);;
-            $table->longText("locationDesc")->nullable(true);;
+            $table->string("locationName")->nullable(true);
+            $table->longText("locationDesc")->nullable(true);
 
         });
     }
