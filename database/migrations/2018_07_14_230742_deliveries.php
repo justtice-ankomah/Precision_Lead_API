@@ -35,8 +35,8 @@ return new class extends Migration
             $table->string('isDelvStarted')->default("NO");  // [NO, YES, ENDED]
             $table->dateTime('delvStartDate')->nullable();
             $table->dateTime('delvEndDate')->nullable();
-            $table->string("paymentMethod")->nullable()->default(null); // [MOMO, CARD]
-            $table->string("paymentType")->nullable(true)->default('INSTANT'); // [INSTANT, PAY ON DELIVERY]
+            $table->string("paymentMethod")->nullable(true)->default(null); // [MOMO, CARD]
+            $table->string("paymentType")->nullable(true)->default(null); // [PAY BEFORE DELIVERY, PAY ON DELIVERY]
             $table->integer("totalCostAmount")->nullable()->default(null);
             $table->integer("discountAmount")->nullable(true)->default(null);
             $table->integer("deliveryCostAmount")->nullable(false);

@@ -37,6 +37,7 @@ class deliveryController extends Controller
             $deliveriesModel->destLocationName=$request->destLocationName;
             $deliveriesModel->destLocationDesc=$request->destLocationDesc;
             $deliveriesModel->productList=$request->productList;
+            $deliveriesModel->paymentMethod = "MOMO";
             // check if user did buy a product with this delivery product
             if($request->productList !=null){
                 $deliveriesModel->didUserBuyProduct="YES";
